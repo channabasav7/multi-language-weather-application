@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useTransition } from 'react';
-import { useTranslations } from 'next-intl';
+
+import { useAppTranslations } from '@/components/LocaleProvider';
 
 import type { ChatMessage, LocaleCode, WeatherSnapshot } from '@/lib/types';
 
@@ -11,7 +12,7 @@ interface ChatWidgetProps {
 }
 
 export function ChatWidget({ snapshot, locale }: ChatWidgetProps) {
-  const t = useTranslations('App');
+  const t = useAppTranslations('App');
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       role: 'assistant',

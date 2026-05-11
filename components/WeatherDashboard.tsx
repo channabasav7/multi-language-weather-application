@@ -2,11 +2,11 @@
 
 import { useState, useTransition } from 'react';
 import { Search } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 
 import { ChatWidget } from '@/components/ChatWidget';
 import { ForecastStrip } from '@/components/ForecastStrip';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useAppTranslations } from '@/components/LocaleProvider';
 import { WeatherCard } from '@/components/WeatherCard';
 import { getWeatherTheme } from '@/lib/gradients';
 import type { LocaleCode, WeatherSnapshot } from '@/lib/types';
@@ -17,7 +17,7 @@ interface WeatherDashboardProps {
 }
 
 export function WeatherDashboard({ initialSnapshot, locale }: WeatherDashboardProps) {
-  const t = useTranslations('App');
+  const t = useAppTranslations('App');
   const [snapshot, setSnapshot] = useState(initialSnapshot);
   const [city, setCity] = useState(initialSnapshot.city);
   const [error, setError] = useState<string | null>(null);

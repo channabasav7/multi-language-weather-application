@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
+import { LocaleProvider } from '@/components/LocaleProvider';
 import { isLocale, locales } from '@/lib/i18n';
 
 export function generateStaticParams() {
@@ -23,11 +22,11 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  setRequestLocale(locale);
+  const messages = (await import(`../../messages/${locale}.json`)).default;
 
   return (
-    <NextIntlClientProvider locale={locale} messages={await getMessages()}>
+    <LocaleProvider locale={locale} messages={messages}>
       {children}
-    </NextIntlClientProvider>
+    </LocaleProvider>
   );
 }
