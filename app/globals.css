@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #070b16;
+  --surface: rgba(10, 15, 28, 0.64);
+  --surface-strong: rgba(14, 20, 38, 0.92);
+  --text: #f8fafc;
+  --muted: #cbd5e1;
+  --accent: #7dd3fc;
+}
+
+html {
+  min-height: 100%;
+  background: var(--background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-body), sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(125, 211, 252, 0.12), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.11), transparent 30%),
+    linear-gradient(180deg, #020617 0%, #07111f 45%, #020617 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(125, 211, 252, 0.25);
+}
+
+.glass-card {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(22px);
+}
+
+.glass-card-strong {
+  background: var(--surface-strong);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 28px 110px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(30px);
+}
+
+.weather-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.weather-shell::before,
+.weather-shell::after {
+  content: '';
+  position: absolute;
+  inset: auto;
+  border-radius: 999px;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.7;
+}
+
+.weather-shell::before {
+  width: 20rem;
+  height: 20rem;
+  top: -6rem;
+  right: -4rem;
+  background: rgba(125, 211, 252, 0.18);
+}
+
+.weather-shell::after {
+  width: 16rem;
+  height: 16rem;
+  bottom: 4rem;
+  left: -6rem;
+  background: rgba(168, 85, 247, 0.12);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float-in {
+    animation: float-in 900ms ease-out both;
+  }
+
+  .fade-up {
+    animation: fade-up 700ms ease-out both;
+  }
+}
+
+@keyframes float-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "App": {
+    "brand": "Weather Pulse",
+    "heroTitle": "Weather that feels alive",
+    "heroSubtitle": "Track conditions, switch languages, and ask the chatbot for plans that match the day.",
+    "searchLabel": "Search a city",
+    "searchPlaceholder": "Bengaluru, Tokyo, Lagos...",
+    "searchButton": "Search",
+    "currentTitle": "Current weather",
+    "forecastTitle": "Next hours and days",
+    "chatTitle": "Weather chatbot",
+    "chatSubtitle": "Ask about the forecast, outfits, travel, or safety.",
+    "chatPlaceholder": "Ask me anything about this weather...",
+    "send": "Send",
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "visibility": "Visibility",
+    "feelsLike": "Feels like",
+    "updated": "Updated",
+    "language": "Language"
+  }
+}
