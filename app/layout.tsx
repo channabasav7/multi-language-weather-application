@@ -8,7 +8,10 @@ const displayFont = Space_Grotesk({ subsets: ['latin'], variable: '--font-displa
 
 export const metadata: Metadata = {
   title: 'Weather Pulse',
-  description: 'A multilingual weather app with a conversational weather assistant.'
+  description: 'A multilingual weather app with a conversational weather assistant.',
+  icons: {
+    icon: '/icon.svg'
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

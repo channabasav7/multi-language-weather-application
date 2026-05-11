@@ -40,6 +40,7 @@ export interface WeatherSnapshot {
   windKph: number;
   visibilityKm: number;
   updatedAt: string;
+  updatedAtLabel: string;
   hourly: HourlyForecastItem[];
   daily: DailyForecastItem[];
 }

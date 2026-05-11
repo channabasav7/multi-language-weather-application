@@ -2,6 +2,19 @@ import type { LocaleCode, WeatherCondition, WeatherSnapshot } from '@/lib/types'
 
 const OPEN_WEATHER_BASE_URL = 'https://api.openweathermap.org/data/2.5';
 
+type OpenWeatherForecastItem = {
+  dt?: number;
+  main?: {
+    temp?: number;
+  };
+  pop?: number;
+  weather?: Array<{ main?: string }>;
+};
+
+type OpenWeatherForecastResponse = {
+  list?: OpenWeatherForecastItem[];
+};
+
 const localeToWeatherLanguage: Record<LocaleCode, string> = {
   en: 'en',
   hi: 'hi',
@@ -39,6 +52,14 @@ function hashText(value: string): number {
   }
 
   return Math.abs(hash);
+}
+
+function formatUpdatedAtLabel(date: Date, locale: LocaleCode) {
+  return new Intl.DateTimeFormat(locale, {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone: 'Asia/Kolkata'
+  }).format(date);
 }
 
 function createDemoSnapshot(city: string, locale: LocaleCode): WeatherSnapshot {
@@ -79,12 +100,13 @@ function createDemoSnapshot(city: string, locale: LocaleCode): WeatherSnapshot {
     windKph,
     visibilityKm: 8 + (hash % 5),
     updatedAt: new Date().toISOString(),
+    updatedAtLabel: formatUpdatedAtLabel(new Date(), locale),
     hourly,
     daily
   };
 }
 
-function buildForecastFromResponse(forecastData: any, locale: LocaleCode, condition: WeatherCondition) {
+function buildForecastFromResponse(forecastData: OpenWeatherForecastResponse | null, locale: LocaleCode, condition: WeatherCondition) {
   const list = Array.isArray(forecastData?.list) ? forecastData.list : [];
   const grouped = new Map<string, { temps: number[]; precipitation: number; condition: WeatherCondition; day: string }>();
 
@@ -121,7 +143,7 @@ function buildForecastFromResponse(forecastData: any, locale: LocaleCode, condit
       precipitation: Math.round(entry.precipitation)
     }));
 
-  const hourly = list.slice(0, 6).map((item: any) => ({
+  const hourly = list.slice(0, 6).map((item) => ({
     time: new Intl.DateTimeFormat(locale, { hour: 'numeric', hour12: true }).format(
       item?.dt ? new Date(item.dt * 1000) : new Date()
     ),
@@ -184,6 +206,7 @@ export async function fetchWeatherSnapshot(city: string, locale: LocaleCode): Pr
       windKph: Math.round(Number(currentData?.wind?.speed ?? 0) * 3.6),
       visibilityKm: Math.round(Number(currentData?.visibility ?? 0) / 1000),
       updatedAt: new Date().toISOString(),
+      updatedAtLabel: formatUpdatedAtLabel(new Date(), locale),
       hourly: forecast.hourly.length ? forecast.hourly : createDemoSnapshot(trimmedCity, locale).hourly,
       daily: forecast.daily.length ? forecast.daily : createDemoSnapshot(trimmedCity, locale).daily
     };

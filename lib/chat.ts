@@ -55,30 +55,34 @@ export async function generateChatReply(params: {
     return fallbackReply(latestUserMessage, params.snapshot);
   }
 
-  const client = new OpenAI({ apiKey });
-  const response = await client.chat.completions.create({
-    model,
-    messages: [
-      {
-        role: 'system',
-        content: [
-          'You are a weather assistant inside a multilingual weather app.',
-          'Use the provided weather context to answer clearly and briefly.',
-          'If the user asks for plans, give practical suggestions tied to the forecast.',
-          'Stay focused on weather, outfit, travel, and activity advice.',
-          'Respond in the same language as the user when possible.'
-        ].join(' ')
-      },
-      {
-        role: 'system',
-        content: weatherContext(params.snapshot, params.locale)
-      },
-      ...params.messages
-        .filter((message) => message.role === 'user' || message.role === 'assistant')
-        .map((message) => ({ role: message.role, content: message.content }))
-    ],
-    temperature: 0.4
-  });
+  try {
+    const client = new OpenAI({ apiKey });
+    const response = await client.chat.completions.create({
+      model,
+      messages: [
+        {
+          role: 'system',
+          content: [
+            'You are a weather assistant inside a multilingual weather app.',
+            'Use the provided weather context to answer clearly and briefly.',
+            'If the user asks for plans, give practical suggestions tied to the forecast.',
+            'Stay focused on weather, outfit, travel, and activity advice.',
+            'Respond in the same language as the user when possible.'
+          ].join(' ')
+        },
+        {
+          role: 'system',
+          content: weatherContext(params.snapshot, params.locale)
+        },
+        ...params.messages
+          .filter((message) => message.role === 'user' || message.role === 'assistant')
+          .map((message) => ({ role: message.role, content: message.content }))
+      ],
+      temperature: 0.4
+    });
 
-  return response.choices[0]?.message?.content?.trim() || fallbackReply(latestUserMessage, params.snapshot);
+    return response.choices[0]?.message?.content?.trim() || fallbackReply(latestUserMessage, params.snapshot);
+  } catch {
+    return fallbackReply(latestUserMessage, params.snapshot);
+  }
 }

@@ -29,7 +29,7 @@ export function WeatherCard({ snapshot }: WeatherCardProps) {
               {snapshot.temperatureC}°
             </p>
             <p className="mt-2 max-w-xl text-lg text-white/85 md:text-xl">{snapshot.description}</p>
-            <p className="mt-1 text-sm uppercase tracking-[0.28em] text-white/65">Updated {new Date(snapshot.updatedAt).toLocaleTimeString()}</p>
+            <p className="mt-1 text-sm uppercase tracking-[0.28em] text-white/65">Updated {snapshot.updatedAtLabel}</p>
           </div>
         </div>
 

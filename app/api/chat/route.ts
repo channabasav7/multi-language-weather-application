@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { generateChatReply } from '@/lib/chat';
 import { isLocale } from '@/lib/i18n';
-import type { ChatMessage, WeatherSnapshot } from '@/lib/types';
+import type { ChatMessage, LocaleCode, WeatherSnapshot } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Weather context is required.' }, { status: 400 });
   }
 
-  const locale = isLocale(payload.locale || '') ? payload.locale : 'en';
+  const locale: LocaleCode = isLocale(payload.locale || '') ? (payload.locale as LocaleCode) : 'en';
   const reply = await generateChatReply({
     messages: Array.isArray(payload.messages) ? payload.messages : [],
     snapshot: payload.snapshot,
